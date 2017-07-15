@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title>album</title>
+	<style type="text/css">
+		.center{position: absolute;margin: auto;top: 0;bottom: 0;left: 0;right: 0;}
+		.album{width: 1000px;height: 600px;}
+		.btn{width: 100px;height: 20px;position: absolute;bottom: -30px;right: 0;}
+		.box{width: 1000px;height: 600px;transform-style:preserve-3d;position: relative;transform-style:preserve-3d;perspective:2000px;transform:rotateX(-30deg);border-radius: 10px;border: 2px solid #ccc;}
+		.photo{width: 1000px;height: 600px;position: absolute;border-radius: 10px;transform-origin:left bottom;}
+	</style>
+	<script type="text/javascript" src="jquery-1.11.3.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var oBox = $('<div>').addClass('box').appendTo('.album');
+			for(var i=0;i<5;i++){
+				$('<div>').addClass('photo').appendTo(oBox).css({
+					"background-image":"url("+(i+1)+".jpg)",
+					"transform":"translateZ(-"+i*50+"px)",
+					"transition":"1.5s"
+				});
+			}
+
+			$('.btn').on('click',function(){
+				//把第一张翻下去
+				var first = $('.photo').eq(0);
+				 first.css({
+				     "transform":"rotateX(-179deg)",
+					 "opacity":0.1	 
+				 })
+				 setTimeout(function(){
+				 	//把第一张放到最后一张
+				 	first.appendTo('.box');
+				 	 first.css({
+					     "transform":"rotateX(0deg) translateZ(-250px)",
+						 "opacity":1,
+						 "transition":"opacity 1s"	 
+					 })
+				 	 setTimeout(function(){
+				 	 	//复位所有
+				 	 	$('.photo').each(function(index){
+				 	 		$(this).css({
+				 	 			"transform":"translateZ(-"+index*50+"px)",
+								"transition":"transform 1s"
+				 	 		});
+				 	 	});
+				 	 },500)
+				 },1000)
+
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="album center">
+		<button class="btn">next</button>	
+	</div>
+
+</body>
+</html>
